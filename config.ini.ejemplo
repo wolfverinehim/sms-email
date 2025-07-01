@@ -1,0 +1,26 @@
+# Archivo de configuración de EJEMPLO para AjpdSoft Envío SMS/Email
+# Copia este archivo como 'config.ini' y completa con tus datos reales
+
+[gmail]
+usuario = tu_email@gmail.com
+password = tu_contraseña_de_aplicacion_de_16_caracteres
+host = smtp.gmail.com
+puerto = 587
+ssl = True
+
+[sms]
+puerto_default = COM3
+baudrate = 9600
+timeout = 5
+
+[sistema]
+directorio_logs = logs
+nivel_log = INFO
+rotacion_logs_dias = 30
+
+# INSTRUCCIONES:
+# 1. Copia este archivo como 'config.ini'
+# 2. Cambia 'tu_email@gmail.com' por tu email real
+# 3. Cambia 'tu_contraseña_de_aplicacion_de_16_caracteres' por tu contraseña de aplicación de Gmail
+# 4. Ajusta el puerto COM si es necesario
+# 5. NUNCA subas el archivo 'config.ini' a repositorios públicos

@@ -1,0 +1,8 @@
+# Dependencias para el proyecto de envío de SMS y Email
+pyserial==3.5
+
+# Dependencias adicionales para email mejorado
+email-validator==2.1.1
+
+# Para crear ejecutables
+pyinstaller==6.10.0
