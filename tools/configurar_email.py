@@ -180,9 +180,12 @@ def probar_configuracion_original(destino):
     print("-" * 50)
     
     # Importar la función original desde src/
-    sys.path.append('../src')
+    import os
+    src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
+    if src_path not in sys.path:
+        sys.path.insert(0, src_path)
     try:
-        from envio_sms_email import enviar_email
+        from src.envio_sms_email import enviar_email
         
         mensaje_html = """
         <h2>🧪 Prueba con función original</h2>
