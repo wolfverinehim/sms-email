@@ -153,7 +153,7 @@ python envio_sms_email.py EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "5
 def guardar_configuracion(config):
     """Guarda la configuración en config.ini"""
     try:
-        config_content = f"""# Archivo de configuración para AjpdSoft Envío SMS/Email
+        config_content = f"""# Archivo de configuración para IBA-Soft Envío SMS/Email
 # IMPORTANTE: Este archivo contiene credenciales sensibles
 # NO subir este archivo a repositorios públicos
 

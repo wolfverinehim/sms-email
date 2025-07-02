@@ -37,7 +37,7 @@ git status
 
 echo.
 echo 💬 Paso 5: Realizando commit inicial...
-git commit -m "Initial commit: AjpdSoft SMS/Email System
+git commit -m "Initial commit: IBA-Soft SMS/Email System
 
 ✅ Features:
 - SMS sending via GSM modem
@@ -51,7 +51,7 @@ git commit -m "Initial commit: AjpdSoft SMS/Email System
 📦 Structure:
 - Main script: envio_sms_email.py
 - Log viewer: visor_logs.py
-- Executables: dist/AjpdSoft*.exe
+- Executables: dist/IBA-Soft*.exe
 - Configuration: config.ini.ejemplo
 - Documentation: README.md and docs/
 
@@ -63,11 +63,11 @@ git commit -m "Initial commit: AjpdSoft SMS/Email System
 echo.
 echo 🌐 Paso 6: Configurando repositorio remoto...
 echo.
-echo "Ve a GitHub y crea un nuevo repositorio llamado 'ajpdsoft-sms-email'"
+echo "Ve a GitHub y crea un nuevo repositorio llamado 'IBA-Soft-sms-email'"
 echo "Luego ejecuta estos comandos:"
 echo.
 echo "git branch -M main"
-echo "git remote add origin https://github.com/TU_USUARIO/ajpdsoft-sms-email.git"
+echo "git remote add origin https://github.com/TU_USUARIO/IBA-Soft-sms-email.git"
 echo "git push -u origin main"
 echo.
 

@@ -189,7 +189,7 @@ if __name__ == "__main__":
     # Configurar logging al inicio
     logger = configurar_logging()
     logger.info("=" * 80)
-    logger.info("INICIO APLICACIÓN | AjpdSoft Envío SMS/Email")
+    logger.info("INICIO APLICACIÓN | IBA-Soft Envío SMS/Email")
     
     # Registrar parámetros recibidos
     log_parametros_recibidos(sys.argv)
@@ -244,5 +244,5 @@ if __name__ == "__main__":
         print("  EMAIL destino mensaje puerto usuario password host [ssl]")
         logger.warning("AYUDA MOSTRADA | No se proporcionaron parámetros")
     
-    logger.info("FIN APLICACIÓN | AjpdSoft Envío SMS/Email")
+    logger.info("FIN APLICACIÓN | IBA-Soft Envío SMS/Email")
     logger.info("=" * 80)

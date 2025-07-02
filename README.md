@@ -1,4 +1,4 @@
-# 📱📧 AjpdSoft - Sistema de Envío SMS y Email
+# 📱📧 IBA-Soft - Sistema de Envío SMS y Email
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
@@ -20,28 +20,51 @@ Sistema completo para envío de mensajes SMS (vía módem GSM) y emails (vía SM
 ## 📦 **ESTRUCTURA DEL PROYECTO**
 
 ```
-smspy/
-├── 📄 envio_sms_email.py          # Script principal
-├── 📊 visor_logs.py               # Visualizador de logs
-├── 🔧 configurar_gmail_seguro.py  # Configurador de Gmail
-├── 🔍 detectar_modem.py           # Detector de módem GSM
-├── 🏗️ crear_ejecutable.py         # Generador de ejecutables
-├── 📋 validar_config.py           # Validador de configuración
-├── 📁 dist/                       # Ejecutables generados
-│   ├── AjpdSoftEnvioSMS.exe      # Ejecutable principal (7.45 MB)
-│   └── AjpdSoftVisorLogs.exe     # Ejecutable visor (6.85 MB)
-├── 📁 logs/                       # Logs del sistema (ignorado en Git)
-├── ⚙️ config.ini.ejemplo         # Plantilla de configuración
-├── 🔒 .gitignore                 # Archivos excluidos de Git
-└── 📚 docs/                      # Documentación completa
+iba-soft-sms-email/
+├── � src/                          # Código fuente principal
+│   ├── envio_sms_email.py          # Script principal
+│   ├── visor_logs.py               # Visualizador de logs
+│   └── __init__.py                 # Paquete Python
+├── � tools/                        # Herramientas y utilidades
+│   ├── configurar_gmail_seguro.py  # Configurador Gmail
+│   ├── detectar_modem.py           # Detector de módem GSM
+│   ├── configurar_email.py         # Configurador de email
+│   ├── diagnostico_sistema.py      # Diagnóstico del sistema
+│   ├── validar_config.py           # Validador de configuración
+│   ├── prueba_rapida_gmail.py      # Pruebas rápidas
+│   └── __init__.py                 # Paquete Python
+├── 📁 config/                       # Configuración
+│   ├── config.ini.ejemplo          # Plantilla de configuración
+│   └── requirements.txt            # Dependencias Python
+├── 📁 build/                        # Scripts de construcción
+│   ├── crear_ejecutable.py         # Generador de ejecutables
+│   └── verificar_github.py         # Verificador para GitHub
+├── 📁 scripts/                      # Scripts de automatización
+│   ├── instalar_IBA-Soft.bat      # Instalador automático
+│   ├── usar_IBA-Soft.bat          # Script de uso
+│   ├── prueba_parametros.bat      # Pruebas de parámetros
+│   └── subir_a_github.bat         # Script de subida a GitHub
+├── 📁 dist/                         # Ejecutables generados
+│   ├── IBA-SoftEnvioSMS.exe       # Ejecutable principal (7.45 MB)
+│   └── IBA-SoftVisorLogs.exe      # Ejecutable visor (6.85 MB)
+├── 📁 docs/                         # Documentación detallada
+│   ├── DOCUMENTACION_LOGGING.md   # Sistema de logs
+│   ├── README_EJECUTABLE.md       # Manual de ejecutables
+│   ├── CONFIGURAR_GMAIL.md        # Configuración Gmail
+│   └── GUIA_CONFIGURACION_MODEM.md # Guía del módem GSM
+├── 📁 logs/                         # Logs del sistema (ignorado en Git)
+├── README.md                        # Documentación principal
+├── LICENSE                          # Licencia MIT
+├── .gitignore                      # Archivos excluidos de Git
+└── config.ini                      # Configuración real (ignorado)
 ```
 
 ## 🛠️ **INSTALACIÓN Y CONFIGURACIÓN**
 
 ### **1. Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/ajpdsoft-sms-email.git
-cd ajpdsoft-sms-email
+git clone https://github.com/tu-usuario/iba-soft-sms-email.git
+cd iba-soft-sms-email
 ```
 
 ### **2. Crear entorno virtual**
@@ -52,13 +75,13 @@ python -m venv .venv
 
 ### **3. Instalar dependencias**
 ```bash
-pip install -r requirements.txt
+pip install -r config\requirements.txt
 ```
 
 ### **4. Configurar credenciales**
 ```bash
 # Copiar archivo de configuración
-copy config.ini.ejemplo config.ini
+copy config\config.ini.ejemplo config.ini
 
 # Editar config.ini con tus credenciales reales
 notepad config.ini
@@ -109,7 +132,7 @@ Los ejecutables permiten usar el sistema sin tener Python instalado y ofrecen **
 
 ### **Generación de Ejecutables**
 ```bash
-python crear_ejecutable.py
+python build\crear_ejecutable.py
 ```
 
 ### **📋 MODO 1: Con Parámetros (Línea de Comandos)**
@@ -128,10 +151,10 @@ python crear_ejecutable.py
 **Ejemplos:**
 ```bash
 # Envío de Email con parámetros
-dist\AjpdSoftEnvioSMS.exe EMAIL "test@email.com" "Mensaje HTML" "587" "user@gmail.com" "password_app" "smtp.gmail.com" "True"
+dist\IBA-SoftEnvioSMS.exe EMAIL "test@email.com" "Mensaje HTML" "587" "user@gmail.com" "password_app" "smtp.gmail.com" "True"
 
 # Envío de SMS con parámetros  
-dist\AjpdSoftEnvioSMS.exe SMS "+34612345678" "Mensaje de prueba" "COM3"
+dist\IBA-SoftEnvioSMS.exe SMS "+34612345678" "Mensaje de prueba" "COM3"
 ```
 
 ### **🔐 MODO 2: Sin Parámetros (Modo Seguro)**
@@ -150,7 +173,7 @@ dist\AjpdSoftEnvioSMS.exe SMS "+34612345678" "Mensaje de prueba" "COM3"
 **Ejemplos:**
 ```bash
 # Modo interactivo seguro (SIN parámetros)
-dist\AjpdSoftEnvioSMS.exe
+dist\IBA-SoftEnvioSMS.exe
 
 # El programa solicitará:
 # 1. Tipo de operación (EMAIL/SMS)
@@ -173,7 +196,7 @@ dist\AjpdSoftEnvioSMS.exe
 **Ambos modos generan logs completos:**
 ```bash
 # Ver logs en tiempo real
-dist\AjpdSoftVisorLogs.exe
+dist\IBA-SoftVisorLogs.exe
 
 # Logs se guardan en: logs/envio_sms_email_YYYYMMDD.log
 ```
@@ -273,7 +296,7 @@ Para envío de SMS necesitas:
 **Ejemplo de comando seguro para limpiar historial:**
 ```bash
 # Windows - Ejecutar y limpiar historial
-dist\AjpdSoftEnvioSMS.exe EMAIL "user@test.com" "msg" "587" "admin@company.com" "pass" "smtp.gmail.com" "True" && doskey /reinstall
+dist\IBA-SoftEnvioSMS.exe EMAIL "user@test.com" "msg" "587" "admin@company.com" "pass" "smtp.gmail.com" "True" && doskey /reinstall
 ```
 
 ### **IMPORTANTE:**
@@ -287,16 +310,16 @@ dist\AjpdSoftEnvioSMS.exe EMAIL "user@test.com" "msg" "587" "admin@company.com" 
 
 ```bash
 # Validar configuración
-python validar_config.py
+python tools\validar_config.py
 
 # Detectar módem GSM
-python detectar_modem.py
+python tools\detectar_modem.py
 
 # Configurar Gmail paso a paso
-python configurar_gmail_seguro.py
+python tools\configurar_gmail_seguro.py
 
 # Prueba rápida
-python prueba_rapida_gmail.py
+python tools\prueba_rapida_gmail.py
 ```
 
 ## 📚 **DOCUMENTACIÓN**
@@ -320,7 +343,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 👤 **AUTOR**
 
-**AjpdSoft Development**
+**IBA-Soft Development**
 - 🐙 GitHub: [@wolfverinehim](https://github.com/wolfverinehim)
 - 📧 Email: ivan.becerro@hotmail.com
 - 🌐 Web: https://www.accuro.es
@@ -387,23 +410,23 @@ python envio_sms_email.py EMAIL "usuario@ejemplo.com" "<h1>Mensaje HTML</h1>" "5
 **Modo automático (con parámetros):**
 ```bash
 # Email completo con parámetros
-dist\AjpdSoftEnvioSMS.exe EMAIL "cliente@empresa.com" "<h1>Bienvenido</h1>" "587" "admin@miempresa.com" "app_password_16_chars" "smtp.gmail.com" "True"
+dist\IBA-SoftEnvioSMS.exe EMAIL "cliente@empresa.com" "<h1>Bienvenido</h1>" "587" "admin@miempresa.com" "app_password_16_chars" "smtp.gmail.com" "True"
 
 # SMS con parámetros  
-dist\AjpdSoftEnvioSMS.exe SMS "+34600123456" "Su pedido está listo" "COM3"
+dist\IBA-SoftEnvioSMS.exe SMS "+34600123456" "Su pedido está listo" "COM3"
 ```
 
 **Modo seguro (sin parámetros):**
 ```bash
 # Ejecución interactiva segura
-dist\AjpdSoftEnvioSMS.exe
+dist\IBA-SoftEnvioSMS.exe
 # El programa te guiará paso a paso y usará config.ini para credenciales
 ```
 
 ### **📊 Monitoreo**
 ```bash
 # Visor de logs interactivo
-dist\AjpdSoftVisorLogs.exe
+dist\IBA-SoftVisorLogs.exe
 ```
 
 ## ⚙️ **CONFIGURACIÓN DE CREDENCIALES**

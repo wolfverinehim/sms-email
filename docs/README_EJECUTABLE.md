@@ -1,30 +1,30 @@
-# AjpdSoftEnvioSMS.exe - Sistema de Envío SMS y Email
+# IBA-SoftEnvioSMS.exe - Sistema de Envío SMS y Email
 
 ## 📋 **DESCRIPCIÓN**
-AjpdSoftEnvioSMS.exe es un ejecutable que permite enviar mensajes SMS y emails desde línea de comandos sin necesidad de tener Python instalado.
+IBA-SoftEnvioSMS.exe es un ejecutable que permite enviar mensajes SMS y emails desde línea de comandos sin necesidad de tener Python instalado.
 
 ## 📦 **CONTENIDO DEL PAQUETE**
-- `AjpdSoftEnvioSMS.exe` - Ejecutable principal (7.45 MB)
-- `usar_AjpdSoftEnvioSMS.bat` - Script de ejemplo interactivo
-- `instalar_AjpdSoft.bat` - Instalador automático
+- `IBA-SoftEnvioSMS.exe` - Ejecutable principal (7.45 MB)
+- `usar_IBA-SoftEnvioSMS.bat` - Script de ejemplo interactivo
+- `instalar_IBA-Soft.bat` - Instalador automático
 - `README_EJECUTABLE.md` - Esta documentación
 
 ## 🚀 **INSTALACIÓN**
 
 ### Opción A: Instalación Automática (Recomendada)
-1. Ejecuta `instalar_AjpdSoft.bat` como **Administrador**
+1. Ejecuta `instalar_IBA-Soft.bat` como **Administrador**
 2. Sigue las instrucciones en pantalla
-3. El ejecutable se instalará en `C:\AjpdSoft\EnvioSMS\`
+3. El ejecutable se instalará en `C:\IBA-Soft\EnvioSMS\`
 
 ### Opción B: Instalación Manual
-1. Copia `AjpdSoftEnvioSMS.exe` a cualquier carpeta
+1. Copia `IBA-SoftEnvioSMS.exe` a cualquier carpeta
 2. Agrega la carpeta al PATH de Windows (opcional)
 
 ## 💻 **USO**
 
 ### 📧 **Enviar Email:**
 ```cmd
-AjpdSoftEnvioSMS.exe EMAIL "destino@ejemplo.com" "<h1>Mi mensaje</h1>" "587" "usuario@gmail.com" "contraseña_app" "smtp.gmail.com" "True"
+IBA-SoftEnvioSMS.exe EMAIL "destino@ejemplo.com" "<h1>Mi mensaje</h1>" "587" "usuario@gmail.com" "contraseña_app" "smtp.gmail.com" "True"
 ```
 
 **Parámetros:**
@@ -39,7 +39,7 @@ AjpdSoftEnvioSMS.exe EMAIL "destino@ejemplo.com" "<h1>Mi mensaje</h1>" "587" "us
 
 ### 📱 **Enviar SMS:**
 ```cmd
-AjpdSoftEnvioSMS.exe SMS "+1234567890" "Mensaje de prueba" "COM3"
+IBA-SoftEnvioSMS.exe SMS "+1234567890" "Mensaje de prueba" "COM3"
 ```
 
 **Parámetros:**
@@ -50,7 +50,7 @@ AjpdSoftEnvioSMS.exe SMS "+1234567890" "Mensaje de prueba" "COM3"
 
 ### 💡 **Ver Ayuda:**
 ```cmd
-AjpdSoftEnvioSMS.exe
+IBA-SoftEnvioSMS.exe
 ```
 
 ## 🔧 **CONFIGURACIÓN GMAIL**
@@ -75,17 +75,17 @@ Para SMS necesitas:
 
 ### Email de Recordatorio:
 ```cmd
-AjpdSoftEnvioSMS.exe EMAIL "cliente@empresa.com" "<h2>Recordatorio de Cita</h2><p>Su cita es mañana a las 10:00 AM.</p>" "587" "infonutribel@gmail.com" "abcd1234efgh5678" "smtp.gmail.com" "True"
+IBA-SoftEnvioSMS.exe EMAIL "cliente@empresa.com" "<h2>Recordatorio de Cita</h2><p>Su cita es mañana a las 10:00 AM.</p>" "587" "infonutribel@gmail.com" "abcd1234efgh5678" "smtp.gmail.com" "True"
 ```
 
 ### SMS de Confirmación:
 ```cmd
-AjpdSoftEnvioSMS.exe SMS "+34612345678" "Su pedido ha sido confirmado. Gracias." "COM3"
+IBA-SoftEnvioSMS.exe SMS "+34612345678" "Su pedido ha sido confirmado. Gracias." "COM3"
 ```
 
 ### Email HTML Complejo:
 ```cmd
-AjpdSoftEnvioSMS.exe EMAIL "usuario@test.com" "<div style='background:#f0f8ff;padding:20px;'><h1 style='color:#4CAF50;'>¡Bienvenido!</h1><p>Su cuenta ha sido activada correctamente.</p></div>" "587" "admin@miempresa.com" "passwordapp123" "smtp.gmail.com" "True"
+IBA-SoftEnvioSMS.exe EMAIL "usuario@test.com" "<div style='background:#f0f8ff;padding:20px;'><h1 style='color:#4CAF50;'>¡Bienvenido!</h1><p>Su cuenta ha sido activada correctamente.</p></div>" "587" "admin@miempresa.com" "passwordapp123" "smtp.gmail.com" "True"
 ```
 
 ## 🔒 **SEGURIDAD**
@@ -145,4 +145,4 @@ Para soporte técnico:
 
 ---
 
-**© 2025 AjpdSoft - Sistema de Envío SMS y Email**
+**© 2025 IBA-Soft - Sistema de Envío SMS y Email**

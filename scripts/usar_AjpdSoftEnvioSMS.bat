@@ -1,5 +1,5 @@
 @echo off
-REM Script de ejemplo para usar AjpdSoftEnvioSMS.exe
+REM Script de ejemplo para usar IBA-SoftEnvioSMS.exe
 REM Edita las variables con tus datos reales
 
 echo ===============================================
@@ -28,14 +28,14 @@ goto salir
 :email
 echo.
 echo 📧 Enviando email de prueba...
-AjpdSoftEnvioSMS.exe EMAIL "%EMAIL_DESTINO%" "<h1>Prueba</h1><p>Este es un email de prueba del sistema AjpdSoft.</p>" "587" "%EMAIL_USUARIO%" "%EMAIL_PASSWORD%" "smtp.gmail.com" "True"
+IBA-SoftEnvioSMS.exe EMAIL "%EMAIL_DESTINO%" "<h1>Prueba</h1><p>Este es un email de prueba del sistema IBA-Soft.</p>" "587" "%EMAIL_USUARIO%" "%EMAIL_PASSWORD%" "smtp.gmail.com" "True"
 pause
 goto salir
 
 :sms
 echo.
 echo 📱 Enviando SMS de prueba...
-AjpdSoftEnvioSMS.exe SMS "%SMS_NUMERO%" "Prueba SMS desde AjpdSoft" "%SMS_PUERTO%"
+IBA-SoftEnvioSMS.exe SMS "%SMS_NUMERO%" "Prueba SMS desde IBA-Soft" "%SMS_PUERTO%"
 pause
 goto salir
 

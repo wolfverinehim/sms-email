@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Visor de logs para el sistema AjpdSoft Envío SMS/Email
+Visor de logs para el sistema IBA-Soft Envío SMS/Email
 Permite visualizar y analizar los logs generados por la aplicación
 """
 
@@ -165,7 +165,7 @@ def menu_principal():
     
     while True:
         print("\n" + "=" * 60)
-        print("📊 VISOR DE LOGS - AjpdSoft Envío SMS/Email")
+        print("📊 VISOR DE LOGS - IBA-Soft Envío SMS/Email")
         print("=" * 60)
         print("1. 📋 Ver logs recientes (últimas 24 horas)")
         print("2. 📈 Estadísticas generales")

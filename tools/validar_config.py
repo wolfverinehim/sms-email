@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validador de configuración para AjpdSoft Envío SMS/Email
+Validador de configuración para IBA-Soft Envío SMS/Email
 Verifica que el archivo config.ini esté bien configurado
 """
 
@@ -123,7 +123,7 @@ def validar_configuracion_sms(config):
         return False
 
 def main():
-    print("🔍 VALIDADOR DE CONFIGURACIÓN - AjpdSoft")
+    print("🔍 VALIDADOR DE CONFIGURACIÓN - IBA-Soft")
     print("=" * 60)
     
     # Paso 1: Verificar archivo
