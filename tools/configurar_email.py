@@ -4,15 +4,45 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import formataddr
 import sys
+import configparser
+import os
 
-# Configuración Gmail
-GMAIL_CONFIG = {
-    'host': 'smtp.gmail.com',
-    'puerto': 587,
-    'usuario': 'infonutribel@gmail.com',
-    'password': '',
-    'ssl': True
-}
+def cargar_configuracion():
+    """Carga la configuración desde config.ini"""
+    config = configparser.ConfigParser()
+    config_path = os.path.join('..', 'config.ini')
+    
+    if not os.path.exists(config_path):
+        print("❌ Error: No se encuentra config.ini")
+        print("💡 Copia config/config.ini.ejemplo como config.ini y completa tus datos")
+        return None
+    
+    try:
+        config.read(config_path, encoding='utf-8')
+        
+        gmail_config = {
+            'host': config.get('gmail', 'host', fallback='smtp.gmail.com'),
+            'puerto': config.getint('gmail', 'puerto', fallback=587),
+            'usuario': config.get('gmail', 'usuario'),
+            'password': config.get('gmail', 'password'),
+            'ssl': config.getboolean('gmail', 'ssl', fallback=True)
+        }
+        
+        if not gmail_config['usuario'] or not gmail_config['password']:
+            print("❌ Error: Usuario o contraseña no configurados en config.ini")
+            print("💡 Edita config.ini y completa:")
+            print("   usuario = tu_email@gmail.com")
+            print("   password = tu_contraseña_de_aplicacion")
+            return None
+            
+        return gmail_config
+        
+    except Exception as e:
+        print(f"❌ Error al leer config.ini: {e}")
+        return None
+
+# Configuración Gmail (se carga dinámicamente)
+GMAIL_CONFIG = None
 
 def probar_conexion_gmail():
     """Prueba la conexión básica con Gmail SMTP"""
@@ -149,8 +179,8 @@ def probar_configuracion_original(destino):
     print(f"\n🧪 PROBANDO FUNCIÓN ORIGINAL...")
     print("-" * 50)
     
-    # Importar la función original
-    sys.path.append('.')
+    # Importar la función original desde src/
+    sys.path.append('../src')
     try:
         from envio_sms_email import enviar_email
         
@@ -163,7 +193,7 @@ def probar_configuracion_original(destino):
         enviar_email(
             destino=destino,
             mensaje=mensaje_html,
-            puerto=587,
+            puerto=GMAIL_CONFIG['puerto'],
             usuario=GMAIL_CONFIG['usuario'],
             password=GMAIL_CONFIG['password'],
             host=GMAIL_CONFIG['host'],
@@ -177,14 +207,24 @@ def probar_configuracion_original(destino):
         return False
 
 def main():
+    global GMAIL_CONFIG
+    
     print("🔧 CONFIGURADOR Y PROBADOR DE EMAIL GMAIL")
     print("=" * 60)
     
-    # Mostrar configuración
-    print("📋 CONFIGURACIÓN ACTUAL:")
+    # Cargar configuración desde config.ini
+    print("📂 Cargando configuración desde config.ini...")
+    GMAIL_CONFIG = cargar_configuracion()
+    
+    if GMAIL_CONFIG is None:
+        return
+    
+    # Mostrar configuración (ocultando la contraseña)
+    print("📋 CONFIGURACIÓN CARGADA:")
     print(f"   Usuario: {GMAIL_CONFIG['usuario']}")
     print(f"   Servidor: {GMAIL_CONFIG['host']}:{GMAIL_CONFIG['puerto']}")
     print(f"   Seguridad: TLS")
+    print(f"   Contraseña: {'*' * len(GMAIL_CONFIG['password'])}")
     
     # Paso 1: Probar conexión
     if not probar_conexion_gmail():
@@ -193,7 +233,7 @@ def main():
         print("1. Ve a: https://myaccount.google.com/security")
         print("2. Activa 'Verificación en 2 pasos'")
         print("3. Genera una 'Contraseña de aplicación'")
-        print("4. Usa esa contraseña en lugar de tu contraseña normal")
+        print("4. Actualiza config.ini con la contraseña de aplicación")
         return
     
     # Paso 2: Pedir email de destino
@@ -213,9 +253,14 @@ def main():
     
     # Paso 5: Mostrar comando para usar
     print(f"\n🎯 COMANDO PARA USAR EN TU SCRIPT:")
-    print(f'python envio_sms_email.py EMAIL "{destino}" "<h1>Tu mensaje</h1>" "587" "{GMAIL_CONFIG["usuario"]}" "{GMAIL_CONFIG["password"]}" "{GMAIL_CONFIG["host"]}" "True"')
+    print(f'python src\\envio_sms_email.py EMAIL "{destino}" "<h1>Tu mensaje</h1>" "{GMAIL_CONFIG["puerto"]}" "{GMAIL_CONFIG["usuario"]}" "tu_contraseña_de_aplicacion" "{GMAIL_CONFIG["host"]}" "True"')
+    
+    print(f"\n🎯 COMANDO CON EJECUTABLE:")
+    print(f'dist\\IBA-SoftEnvioSMS.exe EMAIL "{destino}" "<h1>Tu mensaje</h1>" "{GMAIL_CONFIG["puerto"]}" "{GMAIL_CONFIG["usuario"]}" "tu_contraseña_de_aplicacion" "{GMAIL_CONFIG["host"]}" "True"')
     
     print(f"\n✅ ¡CONFIGURACIÓN COMPLETA!")
+    print(f"📧 Usuario configurado: {GMAIL_CONFIG['usuario']}")
+    print(f"🔒 Contraseña: Configurada en config.ini")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,13 @@
-# 📱📧 IBA-Soft - Sistema de Envío SMS y Email
+# 📱📧 IBA-Soft - Sistema d├── 📁 tools/                        # Herramientas y utilidades
+│   ├── configurar_gmail_seguro.py  # Configurador Gmail
+│   ├── detectar_modem.py           # Detector de módem GSM
+│   ├── configurar_email.py         # Configurador de email
+│   ├── diagnostico_sistema.py      # Diagnóstico del sistema
+│   ├── validar_config.py           # Validador de configuración
+│   ├── prueba_rapida_gmail.py      # Pruebas rápidas
+│   ├── crear_ejecutable.py         # Generador de ejecutables
+│   ├── verificar_github.py         # Verificador para GitHub
+│   └── __init__.py                 # Paquete PythonSMS y Email
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
@@ -36,9 +45,8 @@ iba-soft-sms-email/
 ├── 📁 config/                       # Configuración
 │   ├── config.ini.ejemplo          # Plantilla de configuración
 │   └── requirements.txt            # Dependencias Python
-├── 📁 build/                        # Scripts de construcción
-│   ├── crear_ejecutable.py         # Generador de ejecutables
-│   └── verificar_github.py         # Verificador para GitHub
+├── 📁 build/                        # Archivos temporales de construcción
+│   └── (directorio temporal para PyInstaller)
 ├── 📁 scripts/                      # Scripts de automatización
 │   ├── instalar_IBA-Soft.bat      # Instalador automático
 │   ├── usar_IBA-Soft.bat          # Script de uso
@@ -132,7 +140,7 @@ Los ejecutables permiten usar el sistema sin tener Python instalado y ofrecen **
 
 ### **Generación de Ejecutables**
 ```bash
-python build\crear_ejecutable.py
+python tools\crear_ejecutable.py
 ```
 
 ### **📋 MODO 1: Con Parámetros (Línea de Comandos)**

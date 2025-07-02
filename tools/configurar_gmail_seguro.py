@@ -6,6 +6,41 @@ from email.utils import formataddr
 import getpass
 import sys
 import os
+import configparser
+
+def verificar_configuracion_existente():
+    """Verifica si ya existe una configuración válida"""
+    config_path = os.path.join('..', 'config.ini')
+    
+    if not os.path.exists(config_path):
+        return False, None
+    
+    try:
+        config = configparser.ConfigParser()
+        config.read(config_path, encoding='utf-8')
+        
+        usuario = config.get('gmail', 'usuario', fallback='')
+        password = config.get('gmail', 'password', fallback='')
+        
+        if usuario and password:
+            print(f"📂 Configuración encontrada en config.ini")
+            print(f"👤 Usuario: {usuario}")
+            respuesta = input("¿Quieres usar esta configuración? (s/n): ").strip().lower()
+            
+            if respuesta in ['s', 'si', 'sí', 'y', 'yes']:
+                gmail_config = {
+                    'host': config.get('gmail', 'host', fallback='smtp.gmail.com'),
+                    'puerto': config.getint('gmail', 'puerto', fallback=587),
+                    'usuario': usuario,
+                    'password': password
+                }
+                return True, gmail_config
+        
+        return False, None
+        
+    except Exception as e:
+        print(f"⚠️  Error leyendo config.ini: {e}")
+        return False, None
 
 def obtener_credenciales():
     """Obtiene las credenciales de forma segura"""
@@ -13,9 +48,13 @@ def obtener_credenciales():
     print("-" * 50)
     
     # Usuario
-    usuario = input(f"📧 Usuario Gmail [infonutribel@gmail.com]: ").strip()
+    usuario = input(f"📧 Usuario Gmail: ").strip()
     if not usuario:
-        usuario = "infonutribel@gmail.com"
+        print("❌ Debes introducir un email de Gmail")
+        return None, None
+    
+    if not usuario.endswith('@gmail.com'):
+        print("⚠️  Nota: Asegúrate de usar un email @gmail.com")
     
     print("\n💡 IMPORTANTE:")
     print("   - NO uses tu contraseña normal de Gmail")
@@ -24,6 +63,9 @@ def obtener_credenciales():
     
     # Contraseña de aplicación
     password = getpass.getpass("\n🔑 Contraseña de aplicación (16 caracteres): ")
+    
+    if len(password) != 16:
+        print("⚠️  La contraseña de aplicación debe tener exactamente 16 caracteres")
     
     return usuario, password
 
@@ -115,7 +157,12 @@ def enviar_email_prueba(config, destino):
                     
                     <h3>🚀 Comando para usar en tu script:</h3>
                     <div class="command">
-python envio_sms_email.py EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "587" "{config['usuario']}" "tu_contraseña_app" "smtp.gmail.com" "True"
+python src/envio_sms_email.py EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "587" "{config['usuario']}" "tu_contraseña_app" "smtp.gmail.com" "True"
+                    </div>
+                    
+                    <h3>📦 Comando con ejecutable:</h3>
+                    <div class="command">
+dist/IBA-SoftEnvioSMS.exe EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "587" "{config['usuario']}" "tu_contraseña_app" "smtp.gmail.com" "True"
                     </div>
                     
                     <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px;">
@@ -124,7 +171,7 @@ python envio_sms_email.py EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "5
                 </div>
                 
                 <div class="footer">
-                    Sistema automatizado de SMS/Email - Configurado exitosamente el 1 de julio de 2025
+                    Sistema IBA-Soft SMS/Email - Configurado exitosamente el 2 de julio de 2025
                 </div>
             </body>
         </html>
@@ -151,8 +198,9 @@ python envio_sms_email.py EMAIL "{destino}" "&lt;h1&gt;Tu mensaje&lt;/h1&gt;" "5
         return False
 
 def guardar_configuracion(config):
-    """Guarda la configuración en config.ini"""
+    """Guarda la configuración en config.ini en la raíz del proyecto"""
     try:
+        config_path = os.path.join('..', 'config.ini')
         config_content = f"""# Archivo de configuración para IBA-Soft Envío SMS/Email
 # IMPORTANTE: Este archivo contiene credenciales sensibles
 # NO subir este archivo a repositorios públicos
@@ -175,7 +223,7 @@ nivel_log = INFO
 rotacion_logs_dias = 30
 """
         
-        with open('config.ini', 'w', encoding='utf-8') as f:
+        with open(config_path, 'w', encoding='utf-8') as f:
             f.write(config_content)
         
         print(f"\n💾 Configuración guardada en config.ini")
@@ -189,16 +237,39 @@ def main():
     print("🔧 CONFIGURADOR SEGURO DE EMAIL GMAIL")
     print("=" * 60)
     
-    # Obtener credenciales
-    usuario, password = obtener_credenciales()
+    # Verificar si ya existe configuración
+    config_existente, config = verificar_configuracion_existente()
+    
+    if config_existente:
+        # Usar configuración existente
+        print("✅ Usando configuración existente")
+        usuario = config['usuario']
+        password = config['password']
+    else:
+        # Obtener credenciales nuevas
+        usuario, password = obtener_credenciales()
+        
+        if not usuario or not password:
+            print("\n❌ Credenciales inválidas")
+            return
     
     # Probar conexión
     exito, config = probar_conexion_gmail(usuario, password)
     
     if not exito:
         print("\n❌ No se pudo establecer conexión.")
-        print("\n📖 Lee la guía: CONFIGURAR_GMAIL.md")
-        return
+        print("\n📖 Lee la guía: docs/CONFIGURAR_GMAIL.md")
+        
+        # Si había configuración existente pero falló, ofrecer reconfigurar
+        if config_existente:
+            print("\n🔄 ¿Quieres introducir nuevas credenciales? (s/n): ", end="")
+            if input().strip().lower() in ['s', 'si', 'sí', 'y', 'yes']:
+                usuario, password = obtener_credenciales()
+                if usuario and password:
+                    exito, config = probar_conexion_gmail(usuario, password)
+        
+        if not exito:
+            return
     
     # Pedir email de destino
     print(f"\n📧 ¿A qué email enviar la prueba?")
@@ -211,16 +282,23 @@ def main():
     if enviar_email_prueba(config, destino):
         print("\n🎉 ¡CONFIGURACIÓN COMPLETA Y EXITOSA!")
         
-        # Guardar configuración
-        guardar_configuracion(config)
+        # Guardar configuración solo si es nueva o ha cambiado
+        if not config_existente:
+            guardar_configuracion(config)
         
         # Mostrar comandos de ejemplo
         print(f"\n🎯 COMANDOS DE EJEMPLO:")
-        print(f"\n📧 Email simple:")
-        print(f'python envio_sms_email.py EMAIL "{destino}" "Mensaje de prueba" "587" "{usuario}" "tu_contraseña_app" "smtp.gmail.com" "True"')
+        print(f"\n📧 Email simple (Python):")
+        print(f'python src/envio_sms_email.py EMAIL "{destino}" "Mensaje de prueba" "587" "{usuario}" "tu_contraseña_app" "smtp.gmail.com" "True"')
         
-        print(f"\n📧 Email HTML:")
-        print(f'python envio_sms_email.py EMAIL "{destino}" "<h1>Título</h1><p>Contenido HTML</p>" "587" "{usuario}" "tu_contraseña_app" "smtp.gmail.com" "True"')
+        print(f"\n📧 Email HTML (Python):")
+        print(f'python src/envio_sms_email.py EMAIL "{destino}" "<h1>Título</h1><p>Contenido HTML</p>" "587" "{usuario}" "tu_contraseña_app" "smtp.gmail.com" "True"')
+        
+        print(f"\n📦 Con ejecutable:")
+        print(f'dist/IBA-SoftEnvioSMS.exe EMAIL "{destino}" "<h1>Título</h1>" "587" "{usuario}" "tu_contraseña_app" "smtp.gmail.com" "True"')
+        
+        print(f"\n🔗 Script interactivo:")
+        print(f'scripts/usar_IBA-SoftEnvioSMS.bat')
         
         print(f"\n✅ ¡Tu sistema está listo para usar!")
     
