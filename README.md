@@ -71,33 +71,117 @@ notepad config.ini
 
 ## 🎯 **USO**
 
-### **📧 Envío de Email**
+### **� PYTHON (Modo Desarrollo)**
+
+**�📧 Envío de Email:**
 ```bash
 python envio_sms_email.py EMAIL "destino@email.com" "<h1>Mi mensaje</h1>" "587" "usuario@gmail.com" "contraseña_app" "smtp.gmail.com" "True"
 ```
 
-### **📱 Envío de SMS**
+**📱 Envío de SMS:**
 ```bash
 python envio_sms_email.py SMS "+34612345678" "Mensaje de prueba" "COM3"
 ```
 
-### **📊 Ver Logs**
+**📊 Visor de Logs:**
 ```bash
 python visor_logs.py
 ```
 
+### **🔐 GESTIÓN DE CREDENCIALES**
+
+El sistema soporta **2 métodos** para manejar credenciales:
+
+**Método 1: Parámetros de línea de comandos**
+- ✅ Automatización completa
+- ⚠️ Credenciales visibles temporalmente
+
+**Método 2: Archivo de configuración (RECOMENDADO)**
+- ✅ Máxima seguridad
+- ✅ Credenciales nunca expuestas
+- ✅ Configuración centralizada en `config.ini`
+
+**Para usar config.ini:** Simplemente omite las credenciales en los comandos
+
 ## 🖥️ **EJECUTABLES**
 
-Los ejecutables permiten usar el sistema sin tener Python instalado:
+Los ejecutables permiten usar el sistema sin tener Python instalado y ofrecen **dos modos de operación**:
 
+### **Generación de Ejecutables**
 ```bash
-# Generar ejecutables
 python crear_ejecutable.py
-
-# Usar ejecutables
-dist\AjpdSoftEnvioSMS.exe EMAIL "test@email.com" "Mensaje" "587" "user@gmail.com" "pass" "smtp.gmail.com" "True"
-dist\AjpdSoftVisorLogs.exe
 ```
+
+### **📋 MODO 1: Con Parámetros (Línea de Comandos)**
+
+**✅ VENTAJAS:**
+- 🚀 **Ejecución inmediata** sin interacción del usuario
+- 🔄 **Automatización completa** desde otras aplicaciones
+- 📝 **Logging automático** de todos los parámetros
+- ⚡ **Ideal para integración** con sistemas externos
+
+**⚠️ CONSIDERACIONES DE SEGURIDAD:**
+- 🔒 **Las credenciales son visibles** en la línea de comandos
+- 👁️ **Pueden aparecer en historial** de comandos del sistema
+- 📊 **Se registran en logs del sistema** (enmascaradas en nuestros logs)
+
+**Ejemplos:**
+```bash
+# Envío de Email con parámetros
+dist\AjpdSoftEnvioSMS.exe EMAIL "test@email.com" "Mensaje HTML" "587" "user@gmail.com" "password_app" "smtp.gmail.com" "True"
+
+# Envío de SMS con parámetros  
+dist\AjpdSoftEnvioSMS.exe SMS "+34612345678" "Mensaje de prueba" "COM3"
+```
+
+### **🔐 MODO 2: Sin Parámetros (Modo Seguro)**
+
+**✅ VENTAJAS:**
+- 🛡️ **Máxima seguridad** - credenciales desde config.ini
+- 🔒 **No exposición** de credenciales en línea de comandos
+- 💻 **Interfaz interactiva** paso a paso
+- 📝 **Validación previa** de configuración
+
+**⚠️ CONSIDERACIONES:**
+- 🕐 **Requiere interacción** del usuario
+- ⚙️ **Necesita config.ini** configurado previamente
+- 🔄 **Menos automatizable** para procesos batch
+
+**Ejemplos:**
+```bash
+# Modo interactivo seguro (SIN parámetros)
+dist\AjpdSoftEnvioSMS.exe
+
+# El programa solicitará:
+# 1. Tipo de operación (EMAIL/SMS)
+# 2. Datos específicos según el tipo
+# 3. Las credenciales se leen automáticamente de config.ini
+```
+
+### **🎯 RECOMENDACIONES DE USO**
+
+| Escenario | Modo Recomendado | Razón |
+|-----------|------------------|--------|
+| **Integración con ERP/CRM** | Con parámetros | Automatización completa |
+| **Scripts automatizados** | Con parámetros | No requiere interacción |
+| **Uso manual esporádico** | Sin parámetros | Mayor seguridad |
+| **Entornos compartidos** | Sin parámetros | Evita exposición de credenciales |
+| **Producción crítica** | Sin parámetros | Máximo control y seguridad |
+
+### **🔍 MONITOREO Y LOGS**
+
+**Ambos modos generan logs completos:**
+```bash
+# Ver logs en tiempo real
+dist\AjpdSoftVisorLogs.exe
+
+# Logs se guardan en: logs/envio_sms_email_YYYYMMDD.log
+```
+
+**Diferencias en logging:**
+- **Con parámetros:** Se registra "Parámetros recibidos desde línea de comandos"
+- **Sin parámetros:** Se registra "Configuración leída desde config.ini"
+- **En ambos casos:** Las contraseñas se enmascaran automáticamente
 
 ## 📊 **SISTEMA DE LOGGING**
 
@@ -172,11 +256,32 @@ Para envío de SMS necesitas:
 - ✅ Validación de parámetros de entrada
 - ✅ Manejo seguro de excepciones
 
+### **🔐 SEGURIDAD EN EJECUTABLES**
+
+**Modo con parámetros (automatización):**
+- ⚠️ **Riesgo:** Credenciales visibles en línea de comandos
+- ⚠️ **Riesgo:** Pueden quedar en historial del sistema
+- ✅ **Mitigación:** Usar contraseñas de aplicación específicas
+- ✅ **Mitigación:** Ejecutar desde scripts que limpien historial
+- ✅ **Mitigación:** Nuestros logs siempre enmascaran credenciales
+
+**Modo sin parámetros (seguro):**
+- ✅ **Seguro:** Credenciales solo en archivo local
+- ✅ **Seguro:** No exposición en procesos del sistema
+- ✅ **Seguro:** Config.ini con permisos restrictivos
+
+**Ejemplo de comando seguro para limpiar historial:**
+```bash
+# Windows - Ejecutar y limpiar historial
+dist\AjpdSoftEnvioSMS.exe EMAIL "user@test.com" "msg" "587" "admin@company.com" "pass" "smtp.gmail.com" "True" && doskey /reinstall
+```
+
 ### **IMPORTANTE:**
 - ❌ **NUNCA** subas `config.ini` a repositorios públicos
 - ✅ **USA** contraseñas de aplicación para Gmail
 - ✅ **REVISA** logs regularmente
 - ✅ **ROTA** credenciales periódicamente
+- ⚠️ **CONSIDERA** el modo sin parámetros en entornos compartidos
 
 ## 🧪 **TESTING**
 
@@ -216,9 +321,9 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ## 👤 **AUTOR**
 
 **AjpdSoft Development**
-- 🐙 GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- 📧 Email: contacto@ajpdsoft.com
-- 🌐 Web: https://ajpdsoft.com
+- 🐙 GitHub: [@wolfverinehim](https://github.com/wolfverinehim)
+- 📧 Email: ivan.becerro@hotmail.com
+- 🌐 Web: https://www.accuro.es
 
 ## 🎉 **AGRADECIMIENTOS**
 
@@ -263,27 +368,52 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Uso
+## 💡 **EJEMPLOS PRÁCTICOS**
 
-### Enviar SMS
-```bash
-python envio_sms_email.py SMS <numero> <mensaje> <puerto_serie>
-```
+### **🔧 Con Python (Desarrollo)**
 
-Ejemplo:
+**Enviar SMS:**
 ```bash
 python envio_sms_email.py SMS "+1234567890" "Hola mundo" "COM3"
 ```
 
-### Enviar Email
-```bash
-python envio_sms_email.py EMAIL <destino> <mensaje> <puerto_smtp> <usuario> <password> <host_smtp> [ssl]
-```
-
-Ejemplo:
+**Enviar Email:**
 ```bash
 python envio_sms_email.py EMAIL "usuario@ejemplo.com" "<h1>Mensaje HTML</h1>" "587" "tu_email@gmail.com" "tu_password" "smtp.gmail.com" "True"
 ```
+
+### **📦 Con Ejecutables (Producción)**
+
+**Modo automático (con parámetros):**
+```bash
+# Email completo con parámetros
+dist\AjpdSoftEnvioSMS.exe EMAIL "cliente@empresa.com" "<h1>Bienvenido</h1>" "587" "admin@miempresa.com" "app_password_16_chars" "smtp.gmail.com" "True"
+
+# SMS con parámetros  
+dist\AjpdSoftEnvioSMS.exe SMS "+34600123456" "Su pedido está listo" "COM3"
+```
+
+**Modo seguro (sin parámetros):**
+```bash
+# Ejecución interactiva segura
+dist\AjpdSoftEnvioSMS.exe
+# El programa te guiará paso a paso y usará config.ini para credenciales
+```
+
+### **📊 Monitoreo**
+```bash
+# Visor de logs interactivo
+dist\AjpdSoftVisorLogs.exe
+```
+
+## ⚙️ **CONFIGURACIÓN DE CREDENCIALES**
+
+**Para usar modo seguro (SIN parámetros):**
+1. Copia `config.ini.ejemplo` como `config.ini`
+2. Edita las credenciales en `config.ini`
+3. Ejecuta sin parámetros para máxima seguridad
+
+**Beneficio:** Las credenciales nunca aparecen en línea de comandos ni en historial del sistema.
 
 ## Dependencias
 
